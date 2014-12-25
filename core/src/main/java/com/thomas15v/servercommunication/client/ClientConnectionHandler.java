@@ -14,6 +14,7 @@ public class ClientConnectionHandler extends SimpleChannelInboundHandler<Packet>
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("connected");
         ctx.write(new PacketLogin("Test", "123"));
+        ctx.flush();
     }
 
     @Override

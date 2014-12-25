@@ -24,5 +24,7 @@ public class ServerConnectionHandler extends SimpleChannelInboundHandler<Packet>
     @Override
     protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
         System.out.println(packet);
+        if (packet instanceof PacketLogin)
+            System.out.println(((PacketLogin) packet).getPassword() + " " + ((PacketLogin) packet).getServerName());
     }
 }

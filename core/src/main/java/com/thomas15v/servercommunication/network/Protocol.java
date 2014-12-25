@@ -41,9 +41,8 @@ public class Protocol {
             Constructor<? extends Packet> constructor = packets[id].getDeclaredConstructor();
             return constructor.newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+            return new NullPacket();
         }
-        return new NullPacket();
     }
 
 }

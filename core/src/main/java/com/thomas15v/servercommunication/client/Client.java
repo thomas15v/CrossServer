@@ -36,8 +36,7 @@ public class Client implements Runnable {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), new ClientConnectionHandler());
                         }
-                    })
-                    .option(ChannelOption.SO_BACKLOG, 128);
+                    });
             ChannelFuture f = b.connect(host, port).sync();
             f.channel().closeFuture().sync();
             System.out.println("closed!");
