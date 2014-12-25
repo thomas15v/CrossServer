@@ -1,0 +1,5 @@
+package com.thomas15v.servercommunication.network;
+
+option optimize_for = SPEED;
+
+
