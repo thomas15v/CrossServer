@@ -11,6 +11,7 @@
 
     <artifactId>core</artifactId>
 
+
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
@@ -22,6 +23,12 @@
             <artifactId>lombok</artifactId>
             <version>1.14.8</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.thomas15v.crossserver</groupId>
+            <artifactId>API</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
