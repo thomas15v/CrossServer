@@ -11,10 +11,8 @@ import java.util.List;
  */
 public class PacketDecoder extends ByteToMessageDecoder {
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        System.out.println("decode");
-        int id = byteBuf.readInt();
-        System.out.println(id);
-        list.add(Protocol.getPacket(id).decode(byteBuf));
+    protected void decode(ChannelHandlerContext ch, ByteBuf byteBuf, List<Object> list) throws Exception {
+           int id = byteBuf.readInt();
+           list.add(Protocol.getPacket(id).decode(byteBuf));
     }
 }

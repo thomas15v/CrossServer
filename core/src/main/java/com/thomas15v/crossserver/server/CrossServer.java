@@ -1,8 +1,9 @@
 package com.thomas15v.crossserver.server;
 
-import com.thomas15v.crossserver.network.PacketConnection;
+import com.thomas15v.crossserver.network.PacketConnectionHandler;
 import com.thomas15v.crossserver.network.PacketDecoder;
 import com.thomas15v.crossserver.network.PacketEncoder;
+import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.server.packethandler.ConnectionInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -11,9 +12,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +44,7 @@ public class CrossServer implements Runnable {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), new PacketConnection(new ConnectionInitializer(server)));
+                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), new PacketConnectionHandler(new ConnectionInitializer(server)));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -58,6 +57,17 @@ public class CrossServer implements Runnable {
             bossGroup.shutdownGracefully();
             e.printStackTrace();
         }
-
     }
+
+    public void broadCast(Packet packet, ConnectedServer sender){
+        for (ConnectedServer connectedServer : clients.values())
+            if (connectedServer != sender)
+                connectedServer.getChannel().sendPacket(packet);
+    }
+
+    public void broadCast(Packet packet){
+        broadCast(packet, null);
+    }
+
+
 }

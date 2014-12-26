@@ -1,4 +1,4 @@
-package com.thomas15v.crossserver.api;
+package com.thomas15v.crossserver.api.remote;
 
 import java.util.UUID;
 
@@ -16,4 +16,6 @@ public interface Player {
     void ban();
 
     void sendMessage(String message);
+
+    Server getServer();
 }

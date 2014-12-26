@@ -1,8 +1,0 @@
-package com.thomas15v.servercommunication.network;
-
-option optimize_for = SPEED;
-
-message Login{
-    required string ServerName = 1;
-    required string password = 2;
-}

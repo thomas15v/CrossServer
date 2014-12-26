@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.network.packet;
 
+import com.thomas15v.crossserver.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,6 @@ public abstract class Packet {
         return new String( chars );
     }
 
+    public abstract void handle(PacketHandler packetHandler);
 
 }

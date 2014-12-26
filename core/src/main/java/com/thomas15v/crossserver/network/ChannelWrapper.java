@@ -17,6 +17,18 @@ public class ChannelWrapper {
     }
 
     public void sendPacket(Packet packet){
-        ctx.write(packet);
+        ctx.writeAndFlush(packet);
+    }
+
+    public void disconnect() {
+        ctx.disconnect();
+    }
+
+    public PacketConnectionHandler getConnection(){
+        return ctx.pipeline().get(PacketConnectionHandler.class);
+    }
+
+    public String getIPadress(){
+        return ctx.channel().remoteAddress().toString();
     }
 }

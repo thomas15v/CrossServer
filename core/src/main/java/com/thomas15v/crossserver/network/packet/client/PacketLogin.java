@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.network.packet.client;
 
+import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
@@ -37,5 +38,10 @@ public class PacketLogin extends Packet {
         writeString(serverName, buf);
         writeString(password, buf);
         return this;
+    }
+
+    @Override
+    public void handle(PacketHandler packetHandler) {
+        packetHandler.handle(this);
     }
 }

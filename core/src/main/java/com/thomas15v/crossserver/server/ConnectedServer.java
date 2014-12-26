@@ -1,27 +1,36 @@
 package com.thomas15v.crossserver.server;
 
-import com.thomas15v.crossserver.api.*;
+import com.thomas15v.crossserver.api.remote.Player;
+import com.thomas15v.crossserver.api.remote.Server;
+import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import java.util.Collection;
+
+import java.util.List;
 
 /**
  * Created by thomas15v on 26/12/14.
  */
-public class ConnectedServer implements com.thomas15v.crossserver.api.Server {
+public class ConnectedServer implements Server {
 
     @Getter
     public String name;
-    public ChannelWrapper cw;
+    @Getter
+    public ChannelWrapper channel;
+    @Getter
+    private ServerStatus status;
 
-    public ConnectedServer(String name, ChannelWrapper cw) {
+    public ConnectedServer(String name, ChannelWrapper channel, ServerStatus status) {
         this.name = name;
-        this.cw = cw;
+        this.channel = channel;
+        this.status = status;
     }
 
-    @Override
-    public Collection<Player> getPlayers() {
+    public ConnectedServer(String name, ChannelWrapper channel) {
+        this(name, channel, ServerStatus.ONLINE);
+    }
+
+    public List<Player> getPlayers() {
         return null;
     }
 

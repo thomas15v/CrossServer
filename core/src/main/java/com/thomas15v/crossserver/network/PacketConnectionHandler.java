@@ -10,7 +10,7 @@ import lombok.Setter;
 /**
  * Created by thomas15v on 26/12/14.
  */
-public class PacketConnection extends SimpleChannelInboundHandler<Packet> {
+public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet> {
 
     @NonNull
     @Getter
@@ -20,7 +20,7 @@ public class PacketConnection extends SimpleChannelInboundHandler<Packet> {
     @Getter
     private ChannelWrapper channelWrapper;
 
-    public PacketConnection(PacketHandler packetHandler){
+    public PacketConnectionHandler(PacketHandler packetHandler){
         setPacketHandler(packetHandler);
     }
 
@@ -43,7 +43,7 @@ public class PacketConnection extends SimpleChannelInboundHandler<Packet> {
     @Override
     protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
         synchronized (packetHandler) {
-            getPacketHandler().handle(packet);
+            packet.handle(getPacketHandler());
         }
     }
 }
