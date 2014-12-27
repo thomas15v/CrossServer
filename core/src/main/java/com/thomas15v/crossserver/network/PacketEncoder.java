@@ -12,7 +12,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-        byteBuf.writeByte(packet.getId())
+        byteBuf.writeByte(packet.getId());
         packet.encode(byteBuf);
     }
 }
