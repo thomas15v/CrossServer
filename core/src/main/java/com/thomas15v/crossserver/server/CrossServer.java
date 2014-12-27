@@ -20,41 +20,44 @@ import java.util.Map;
  */
 public class CrossServer implements Runnable {
 
-    private static CrossServer server;
-
     private int port = 5500;
     private String bindadress;
     @Getter
     private Map<String, ConnectedServer> clients = new HashMap<>();
 
+    private EventLoopGroup bossGroup = new NioEventLoopGroup();
+    private EventLoopGroup workerGroup = new NioEventLoopGroup();
+
     public static void main(String[] args){
-        server = new CrossServer();
-        new Thread(server).start();
+        new Thread(new CrossServer()).start();
     }
 
     @Override
     public void run() {
         System.out.println("started!");
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), new PacketConnectionHandler(new ConnectionInitializer(server)));
-                        }
-                    })
+                    .childHandler(new PacketChannelInitializer(new PacketConnectionHandler(new ConnectionInitializer(this))))
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
-            ChannelFuture f = b.bind(port).sync();
+            ChannelFuture f = b.bind(port).addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    if (channelFuture.isSuccess())
+                        System.out.println("Succesfully Bounded");
+                }
+            });
+            System.out.println("waiting");
             f.channel().closeFuture().sync();
             System.out.println("closed!");
         }catch (Exception e){
+            stop();
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
+            System.out.println("stopped");
             e.printStackTrace();
         }
     }
@@ -67,6 +70,10 @@ public class CrossServer implements Runnable {
 
     public void broadCast(Packet packet){
         broadCast(packet, null);
+    }
+
+    public void stop(){
+
     }
 
 

@@ -32,14 +32,13 @@ public class Client implements Runnable, CrossServer {
     @Getter
     @Setter
     private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
-
-    //todo: Fix this nonsense
-    private final Client me;
+    @Getter
+    private final PacketConnectionHandler ConnectionHandler;
 
     public Client(Server server){
         this.localServer = server;
         servers.add(localServer);
-        this.me = this;
+        ConnectionHandler = new PacketConnectionHandler(new ConnectionInitializer(this));
     }
 
     @Override
@@ -53,12 +52,12 @@ public class Client implements Runnable, CrossServer {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), new PacketConnectionHandler(new ConnectionInitializer(me)));
+                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), ConnectionHandler);
                         }
                     });
             ChannelFuture f = b.connect(host, port).sync();
-            f.channel().closeFuture().sync();
-            System.out.println("closed!");
+/*            f.channel().closeFuture().sync();
+            System.out.println("closed!");*/
         }catch (Exception e){
             group.shutdownGracefully();
             e.printStackTrace();

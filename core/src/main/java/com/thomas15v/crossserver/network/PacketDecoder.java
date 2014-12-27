@@ -12,7 +12,12 @@ import java.util.List;
 public class PacketDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ch, ByteBuf byteBuf, List<Object> list) throws Exception {
-           int id = byteBuf.readInt();
-           list.add(Protocol.getPacket(id).decode(byteBuf));
+        try {
+            int id = byteBuf.readInt();
+            list.add(Protocol.getPacket(id).decode(byteBuf));
+        }catch (Exception e){
+            System.out.println("decoder stopped");
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package com.thomas15v.crossserver.network;
 
 import com.thomas15v.crossserver.network.packet.Packet;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 /**
  * Created by thomas15v on 26/12/14.
  */
+@ChannelHandler.Sharable
 public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet> {
 
     @NonNull
@@ -18,7 +20,7 @@ public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet>
     private PacketHandler packetHandler;
 
     @Getter
-    private ChannelWrapper channelWrapper;
+    private ChannelWrapper channel;
 
     public PacketConnectionHandler(PacketHandler packetHandler){
         setPacketHandler(packetHandler);
@@ -27,16 +29,16 @@ public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet>
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        this.channelWrapper = new ChannelWrapper(ctx);
+        this.channel = new ChannelWrapper(ctx);
         synchronized (packetHandler) {
-            getPacketHandler().connected(getChannelWrapper());
+            getPacketHandler().connected(this.getChannel());
         }
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         synchronized (packetHandler) {
-            getPacketHandler().disconnected(getChannelWrapper());
+            getPacketHandler().disconnected(this.getChannel());
         }
     }
 

@@ -1,7 +1,10 @@
+import com.thomas15v.crossserver.api.util.ConnectionStatus;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.server.CrossServer;
 import impl.TestServer;
+import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,15 +13,42 @@ import org.junit.Test;
  */
 public class ServerClientTest {
 
+    public static CrossServer crossServer;
+
     @BeforeClass
     public static void setupServer(){
-        CrossServer.main(null);
+        crossServer = new CrossServer();
+        new Thread(crossServer).start();
     }
 
     @Test
-    public void runClientTests(){
+    public void TestLogin() throws InterruptedException {
+        Assert.assertTrue(startAndQuitClient());
+    }
+
+    public boolean startAndQuitClient() throws InterruptedException {
         Client client = new Client(new TestServer("TestServer", ServerStatus.ONLINE));
         client.run();
+        Thread.sleep(100);
+        boolean value = client.getStatus() == ConnectionStatus.CONNECTED;
+        client.getConnectionHandler().getChannel().disconnect();
+        return value;
+    }
+
+    @Test
+    public void TestMoareClients() throws InterruptedException {
+        boolean value = true;
+        for (int i = 0; 10 > i; i++) {
+            if (!startAndQuitClient())
+                value = false;
+            Thread.sleep(1000);
+        }
+        Assert.assertTrue(value);
+    }
+
+    @AfterClass
+    public static void cleanup(){
+        crossServer.stop();
     }
 
 }
