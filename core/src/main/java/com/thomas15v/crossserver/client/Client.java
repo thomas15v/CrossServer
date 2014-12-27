@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.client;
 
+import com.thomas15v.crossserver.api.Plugin;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
@@ -26,7 +27,7 @@ public class Client implements Runnable, CrossServer {
     private int port = 5500;
     private String host = "localhost";
     @Getter
-    private final Server localServer;
+    private final Plugin plugin;
     @Getter
     private List<Server> servers = new ArrayList<>();
     @Getter
@@ -35,9 +36,9 @@ public class Client implements Runnable, CrossServer {
     @Getter
     private final PacketConnectionHandler ConnectionHandler;
 
-    public Client(Server server){
-        this.localServer = server;
-        servers.add(localServer);
+    public Client(Plugin plugin){
+        this.plugin = plugin;
+        servers.add(plugin.getLocalServer());
         ConnectionHandler = new PacketConnectionHandler(new ConnectionInitializer(this));
     }
 
@@ -58,6 +59,11 @@ public class Client implements Runnable, CrossServer {
             ChannelFuture f = b.connect(host, port).sync();
 /*            f.channel().closeFuture().sync();
             System.out.println("closed!");*/
+            try {
+
+            }catch (Exception e){
+                System.out.println("Failed to Init the API");
+            }
         }catch (Exception e){
             group.shutdownGracefully();
             e.printStackTrace();

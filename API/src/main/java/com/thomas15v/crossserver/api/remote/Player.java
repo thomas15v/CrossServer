@@ -11,9 +11,9 @@ public interface Player {
 
     String getName();
 
-    void kick();
+    void kick(String kickMessage);
 
-    void ban();
+    void ban(String banMessage);
 
     void sendMessage(String message);
 

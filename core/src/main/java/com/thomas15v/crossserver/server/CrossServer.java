@@ -35,14 +35,12 @@ public class CrossServer implements Runnable {
     @Override
     public void run() {
         System.out.println("started!");
-
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new PacketChannelInitializer(new PacketConnectionHandler(new ConnectionInitializer(this))))
-                    .option(ChannelOption.SO_BACKLOG, 128)          // (5)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
+                    .childHandler(new PacketChannelInitializer(this))
+                    .option(ChannelOption.SO_BACKLOG, 128);
             ChannelFuture f = b.bind(port).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {

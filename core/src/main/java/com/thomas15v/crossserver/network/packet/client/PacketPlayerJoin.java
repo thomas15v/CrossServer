@@ -16,11 +16,11 @@ import java.util.List;
 public class PacketPlayerJoin extends Packet {
 
     @Getter
-    public List<Player> players;
+    public Player player;
 
-    public PacketPlayerJoin(Player... players){
+    public PacketPlayerJoin(Player player){
         this();
-        this.players = Arrays.asList(players);
+        this.player = player;
     }
 
     public PacketPlayerJoin() {
@@ -29,12 +29,12 @@ public class PacketPlayerJoin extends Packet {
 
     @Override
     public Packet decode(ByteBuf buf) {
-        return null;
+        return this;
     }
 
     @Override
     public Packet encode(ByteBuf buf) {
-        return null;
+        return this;
     }
 
     @Override

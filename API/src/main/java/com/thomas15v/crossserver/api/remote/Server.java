@@ -2,6 +2,7 @@ package com.thomas15v.crossserver.api.remote;
 
 import com.thomas15v.crossserver.api.util.ServerStatus;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,7 +12,9 @@ public interface Server {
 
     String getName();
 
-    List<Player> getPlayers();
+    Collection<Player> getPlayers();
+
+    Player getPlayer(String string);
 
     void broadcast(String string);
 

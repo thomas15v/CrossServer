@@ -27,6 +27,11 @@ public class TestServer implements Server {
     private List<Player> players = new ArrayList<>();
 
     @Override
+    public Player getPlayer(String string) {
+        return null;
+    }
+
+    @Override
     public void broadcast(String string) {
         System.out.println("<" + name + " --> GLOBAL>: "  + string);
     }

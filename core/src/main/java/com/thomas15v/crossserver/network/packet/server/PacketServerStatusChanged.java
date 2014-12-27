@@ -32,7 +32,6 @@ public class PacketServerStatusChanged extends Packet {
 
     @Override
     public Packet encode(ByteBuf buf) {
-        buf.writeInt(getId());
         writeString(serverName, buf);
         buf.writeByte(ServerStatus.getByte(status));
         return this;

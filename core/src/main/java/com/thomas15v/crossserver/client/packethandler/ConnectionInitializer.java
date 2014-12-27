@@ -38,7 +38,7 @@ public class ConnectionInitializer extends PacketHandler {
         this.cw = cw;
         System.out.println("Connected");
         client.setStatus(ConnectionStatus.AUTHORIZING);
-        cw.sendPacket(new PacketLogin(client.getLocalServer().getName(), password));
+        cw.sendPacket(new PacketLogin(client.getPlugin().getLocalServer().getName(), password));
     }
 
     @Override

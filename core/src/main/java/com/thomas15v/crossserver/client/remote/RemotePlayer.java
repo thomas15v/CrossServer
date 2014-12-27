@@ -28,12 +28,12 @@ public class RemotePlayer implements Player {
     }
 
     @Override
-    public void kick() {
+    public void kick(String kickMessage) {
 
     }
 
     @Override
-    public void ban() {
+    public void ban(String banMessage) {
 
     }
 

@@ -29,7 +29,6 @@ public class PacketAuthentationResult extends Packet {
 
     @Override
     public Packet encode(ByteBuf buf) {
-        buf.writeInt(getId());
         buf.writeBoolean(result);
         return this;
     }

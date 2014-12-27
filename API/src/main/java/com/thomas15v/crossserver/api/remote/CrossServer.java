@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.api.remote;
 
+import com.thomas15v.crossserver.api.Plugin;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface CrossServer {
 
     void setStatus(ConnectionStatus status);
 
-    Server getLocalServer();
+    Plugin getPlugin();
 
 }

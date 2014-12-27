@@ -29,26 +29,31 @@ public class ServerClientTest {
     public boolean startAndQuitClient() throws InterruptedException {
         Client client = new Client(new TestServer("TestServer", ServerStatus.ONLINE));
         client.run();
-        Thread.sleep(100);
+        Thread.sleep(50);
         boolean value = client.getStatus() == ConnectionStatus.CONNECTED;
         client.getConnectionHandler().getChannel().disconnect();
         return value;
     }
 
     @Test
-    public void TestMoareClients() throws InterruptedException {
+    public void testClientJoinConnect() throws InterruptedException {
         boolean value = true;
         for (int i = 0; 10 > i; i++) {
             if (!startAndQuitClient())
                 value = false;
-            Thread.sleep(1000);
         }
         Assert.assertTrue(value);
+    }
+
+    public void testLoginWithSameName(){
+
     }
 
     @AfterClass
     public static void cleanup(){
         crossServer.stop();
     }
+
+
 
 }

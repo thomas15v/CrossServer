@@ -21,6 +21,11 @@ public class RemoteServer implements Server {
     }
 
     @Override
+    public Player getPlayer(String string) {
+        return null;
+    }
+
+    @Override
     public void broadcast(String string) {
 
     }
