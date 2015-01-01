@@ -2,7 +2,11 @@ package com.thomas15v.crossserver.bukkit;
 
 import com.thomas15v.crossserver.api.Plugin;
 import com.thomas15v.crossserver.api.Task;
+import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
+import com.thomas15v.crossserver.bukkit.impl.BukkitServer;
+import com.thomas15v.crossserver.client.Client;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -14,14 +18,17 @@ import java.util.concurrent.ExecutionException;
  */
 public class CrossServerPlugin extends JavaPlugin implements Plugin {
 
+    @Getter
+    private CrossServer crossServer;
+
+    @Getter
+    private Server localServer;
+
     @Override
     public void onEnable() {
-
-    }
-
-    @Override
-    public Server getLocalServer() {
-        return null;
+        this.crossServer = new Client(this);
+        this.localServer = new BukkitServer(this);
+        this.crossServer.run();
     }
 
     @Override

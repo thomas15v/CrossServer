@@ -7,6 +7,7 @@ import com.thomas15v.crossserver.bukkit.CrossServerPlugin;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -22,6 +23,9 @@ public class BukkitPlayer implements Player{
     @NonNull
     @Getter
     private org.bukkit.entity.Player player;
+
+    @Setter
+    private Server server = plugin.getLocalServer();
 
     @Override
     public UUID getUUID() {
@@ -78,6 +82,11 @@ public class BukkitPlayer implements Player{
 
     @Override
     public Server getServer() {
-        return plugin.getLocalServer();
+        return server;
+    }
+
+    @Override
+    public void setServer(Server server) {
+        System.out.println("Not supported Yet");
     }
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * Created by thomas15v on 27/12/14.
@@ -23,7 +24,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        plugin.getLocalServer().getPlayers().add(new BukkitPlayer(plugin, event.getPlayer()));
+        plugin.getLocalServer().addPlayer(new BukkitPlayer(plugin, event.getPlayer()));
+    }
+
+    @EventHandler
+    public void onPlayerleave(PlayerQuitEvent event){
+        plugin.getLocalServer().removePlayer(event.getPlayer().getName());
     }
 
 

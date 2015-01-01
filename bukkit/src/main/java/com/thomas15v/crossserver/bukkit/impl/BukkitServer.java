@@ -3,12 +3,10 @@ package com.thomas15v.crossserver.bukkit.impl;
 import com.thomas15v.crossserver.api.Task;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
+import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.bukkit.CrossServerPlugin;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import org.bukkit.event.Listener;
 
 import java.util.*;
@@ -16,7 +14,7 @@ import java.util.*;
 /**
  * Created by thomas15v on 27/12/14.
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class BukkitServer implements Server, Listener {
 
     @NonNull
@@ -39,6 +37,18 @@ public class BukkitServer implements Server, Listener {
     @Override
     public Player getPlayer(String string) {
         return players.get(string);
+    }
+
+    @Override
+    public void removePlayer(String player) {
+        plugin.getCrossServer().reportPlayerStatus(getPlayer(player), PlayerStatus.LEFT);
+        players.remove(player);
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        players.put(player.getName(), player);
+        plugin.getCrossServer().reportPlayerStatus(player, PlayerStatus.JOINED);
     }
 
     @Override

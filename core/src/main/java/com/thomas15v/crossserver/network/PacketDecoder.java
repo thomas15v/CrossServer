@@ -14,8 +14,10 @@ public class PacketDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ch, ByteBuf byteBuf, List<Object> list) throws Exception {
         try {
             int id = byteBuf.readInt();
+            System.out.println(id);
             list.add(Protocol.getPacket(id).decode(byteBuf));
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("decoder stopped");
         }
 

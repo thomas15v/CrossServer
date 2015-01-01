@@ -2,8 +2,7 @@ package com.thomas15v.crossserver.network;
 
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
-import com.thomas15v.crossserver.network.packet.client.PacketPlayerJoin;
-import com.thomas15v.crossserver.network.packet.client.PacketPlayerLeave;
+import com.thomas15v.crossserver.network.packet.client.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
 import com.thomas15v.crossserver.network.packet.server.PacketServerStatusChanged;
 import io.netty.buffer.ByteBuf;
@@ -21,16 +20,13 @@ public class Protocol {
         packets[0x1] = PacketLogin.class;
         packets[0x2] = PacketAuthentationResult.class;
         packets[0x3] = PacketServerStatusChanged.class;
-        packets[0x4] = PacketPlayerJoin.class;
-        packets[0x5] = PacketPlayerLeave.class;
+        packets[0x4] = PacketPlayerStatusChangePacket.class;
     }
 
     private static class NullPacket extends Packet{
 
         public NullPacket() {
             super(-1);
-            System.err.println("Protocol Error!!!! Making NullPackets To avoid crashing.");
-            System.err.println("Please reports these bugs!!!");
         }
 
         @Override
@@ -52,6 +48,7 @@ public class Protocol {
             Constructor<? extends Packet> constructor = packets[id].getDeclaredConstructor();
             return constructor.newInstance();
         } catch (Exception e) {
+            System.out.println("PROTOCOL ERROR, UNKNOW PACKET ID: " + id);
             return new NullPacket();
         }
     }

@@ -26,14 +26,14 @@ public class PacketServerStatusChanged extends Packet {
     @Override
     public Packet decode(ByteBuf buf) {
         this.serverName = readString(buf);
-        this.status = ServerStatus.getFromByte(buf.readByte());
+        this.status = ServerStatus.valueOf(readString(buf));
         return this;
     }
 
     @Override
     public Packet encode(ByteBuf buf) {
         writeString(serverName, buf);
-        buf.writeByte(ServerStatus.getByte(status));
+        writeString(status.name(), buf);
         return this;
     }
 

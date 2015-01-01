@@ -18,4 +18,6 @@ public interface Player {
     void sendMessage(String message);
 
     Server getServer();
+
+    void setServer(Server server);
 }

@@ -16,7 +16,6 @@ public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet>
 
     @NonNull
     @Getter
-    @Setter
     private PacketHandler packetHandler;
 
     @Getter
@@ -46,6 +45,12 @@ public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet>
     protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
         synchronized (packetHandler) {
             packet.handle(getPacketHandler());
+        }
+    }
+
+    public void setPacketHandler(PacketHandler packetHandler) {
+        synchronized (packetHandler) {
+            this.packetHandler = packetHandler;
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.api;
 
+import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
 
 /**
@@ -13,4 +14,5 @@ public interface Plugin {
 
     <I> I execute(Task<I> task);
 
+    CrossServer getCrossServer();
 }
