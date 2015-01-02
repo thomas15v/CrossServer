@@ -1,31 +1,50 @@
 package com.thomas15v.crossserver.client.packethandler;
 
+import com.thomas15v.crossserver.api.remote.Player;
+import com.thomas15v.crossserver.api.util.ServerStatus;
+import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
-import com.thomas15v.crossserver.network.packet.Packet;
-import com.thomas15v.crossserver.network.packet.server.PacketServerStatusChanged;
-import io.netty.channel.ChannelHandlerContext;
-
-import java.util.Collection;
+import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
+import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.remote.RemotePlayer;
+import com.thomas15v.crossserver.network.remote.RemoteServer;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Created by thomas15v on 26/12/14.
  */
+@RequiredArgsConstructor
 public class ClientHandler extends PacketHandler{
 
-
-    @Override
-    public void connected(ChannelWrapper cw) {
-
-    }
-
-    @Override
-    public void disconnected(ChannelWrapper cw) {
-
-    }
+    @NonNull
+    private ChannelWrapper channel;
+    @NonNull
+    private Client client;
 
     @Override
     public void handle(PacketServerStatusChanged packet) {
-        System.out.println(packet);
+        if (packet.getStatus() == ServerStatus.ONLINE)
+            if (!client.getServers().contains(packet.getServerName()))
+                client.addServer(new RemoteServer(packet.getServerName(), channel));
+        else
+            client.getServer(packet.getServerName()).setStatus(packet.getStatus());
+    }
+
+    @Override
+    public void handle(PacketPlayerStatusChangePacket packet) {
+        if (client.getServers().contains(packet.getServername()))
+            client.addServer(new RemoteServer(packet.getServername(), channel));
+        Player player = new RemotePlayer(packet.getPlayername(), channel);
+        client.getServer(packet.getServername()).addPlayer(player);
+        player.sendMessage("Hi Player");
+        System.out.println(packet.getPlayername() + "has " + packet.getStatus() + " on " + packet.getServername());
+    }
+
+    @Override
+    public void handle(PacketMessage packet) {
+        System.out.println(packet.getMessage());
     }
 }

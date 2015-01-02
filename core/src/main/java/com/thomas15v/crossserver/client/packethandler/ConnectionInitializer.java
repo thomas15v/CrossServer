@@ -1,19 +1,13 @@
 package com.thomas15v.crossserver.client.packethandler;
 
-import com.thomas15v.crossserver.api.remote.Player;
-import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
-import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
-import com.thomas15v.crossserver.network.packet.client.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
 
 /**
  * Created by thomas15v on 26/12/14.
@@ -31,6 +25,7 @@ public class ConnectionInitializer extends PacketHandler {
         if (packet.getResult()) {
             System.out.println("successfully logged in");
             client.setStatus(ConnectionStatus.CONNECTED);
+            cw.getConnection().setPacketHandler(new ClientHandler(cw, client));
         }
         else {
             System.out.println("connection Failed");

@@ -21,7 +21,7 @@ public class ChannelWrapper {
     }
 
     public void disconnect() {
-        ctx.disconnect();
+        ctx.channel().close();
     }
 
     public PacketConnectionHandler getConnection(){

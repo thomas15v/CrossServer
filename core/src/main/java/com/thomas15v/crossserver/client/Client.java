@@ -10,7 +10,9 @@ import com.thomas15v.crossserver.client.packethandler.ConnectionInitializer;
 import com.thomas15v.crossserver.network.PacketConnectionHandler;
 import com.thomas15v.crossserver.network.PacketDecoder;
 import com.thomas15v.crossserver.network.PacketEncoder;
-import com.thomas15v.crossserver.network.packet.client.PacketPlayerStatusChangePacket;
+import com.thomas15v.crossserver.network.packet.Packet;
+import com.thomas15v.crossserver.network.packet.client.PacketBye;
+import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -19,8 +21,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by thomas15v on 25/12/14.
@@ -31,8 +32,8 @@ public class Client implements CrossServer {
     private String host = "localhost";
     @Getter
     private final Plugin plugin;
-    @Getter
-    private List<Server> servers = new ArrayList<>();
+
+    private Map<String, Server> servers = new HashMap<>();
     @Getter
     @Setter
     private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
@@ -42,7 +43,7 @@ public class Client implements CrossServer {
 
     public Client(Plugin plugin){
         this.plugin = plugin;
-        servers.add(plugin.getLocalServer());
+        servers.put(plugin.getLocalServer().getName(), plugin.getLocalServer());
         Connection = new PacketConnectionHandler(new ConnectionInitializer(this));
     }
 
@@ -74,11 +75,31 @@ public class Client implements CrossServer {
     }
 
     @Override
+    public Collection<Server> getServers() {
+        return servers.values();
+    }
+
+    @Override
+    public Server getServer(String server) {
+        return servers.get(server);
+    }
+
+    public void addServer(Server server){
+        servers.put(server.getName(), server);
+    }
+
+    @Override
     public void reportPlayerStatus(Player player, PlayerStatus playerStatus) {
-        getConnection().getChannel().sendPacket(new PacketPlayerStatusChangePacket(player, playerStatus));
+        sendPacket(new PacketPlayerStatusChangePacket(player, playerStatus));
+    }
+
+    public void sendPacket(Packet packet){
+       getConnection().getChannel().sendPacket(packet);
     }
 
     public void stop(){
-
+        getConnection().getChannel().sendPacket(new PacketBye());
+        getConnection().getChannel().disconnect();
+        running = false;
     }
 }

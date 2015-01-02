@@ -1,17 +1,14 @@
 package com.thomas15v.crossserver.bukkit;
 
 import com.thomas15v.crossserver.api.Plugin;
-import com.thomas15v.crossserver.api.Task;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.bukkit.impl.BukkitServer;
+import com.thomas15v.crossserver.bukkit.listener.PlayerListener;
 import com.thomas15v.crossserver.client.Client;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by thomas15v on 27/12/14.
@@ -26,9 +23,15 @@ public class CrossServerPlugin extends JavaPlugin implements Plugin {
 
     @Override
     public void onEnable() {
-        this.crossServer = new Client(this);
         this.localServer = new BukkitServer(this);
-        this.crossServer.run();
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        this.crossServer = new Client(this);
+        new Thread(this.crossServer).start();
+    }
+
+    @Override
+    public void onDisable() {
+        crossServer.stop();
     }
 
     @Override
@@ -37,19 +40,7 @@ public class CrossServerPlugin extends JavaPlugin implements Plugin {
     }
 
     @Override
-    public <I> I execute(final Task<I> task) {
-        try {
-            return getServer().getScheduler().callSyncMethod(this, new Callable<I>() {
-                @Override
-                public I call() throws Exception {
-                    return task.execute();
-                }
-            }).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void execute(Runnable task) {
+        getServer().getScheduler().runTask(this, task);
     }
 }

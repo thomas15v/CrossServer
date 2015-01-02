@@ -1,13 +1,11 @@
 package com.thomas15v.crossserver.bukkit.impl;
 
-import com.thomas15v.crossserver.api.Task;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.bukkit.CrossServerPlugin;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
 
@@ -24,65 +22,49 @@ public class BukkitPlayer implements Player{
     @Getter
     private org.bukkit.entity.Player player;
 
-    @Setter
-    private Server server = plugin.getLocalServer();
-
     @Override
     public UUID getUUID() {
-        return plugin.execute(new Task<UUID>() {
-            @Override
-            public UUID execute() {
-                return player.getUniqueId();
-            }
-        });
+        return player.getUniqueId();
     }
 
     @Override
     public String getName() {
-        return plugin.execute(new Task<String>() {
-            @Override
-            public String execute() {
-                return player.getName();
-            }
-        });
+        return player.getName();
     }
 
     @Override
     public void kick(final String kickMessage) {
-        plugin.execute(new Task<Void>() {
+        plugin.execute(new Runnable() {
             @Override
-            public Void execute() {
+            public void run() {
                 player.kickPlayer(kickMessage);
-                return null;
             }
         });
     }
 
     @Override
     public void ban(final String banMessage) {
-        plugin.execute(new Task<Void>() {
+        plugin.execute(new Runnable() {
             @Override
-            public Void execute() {
+            public void run() {
                 player.kickPlayer(banMessage);
-                return null;
             }
         });
     }
 
     @Override
     public void sendMessage(final String message) {
-        plugin.execute(new Task<Void>() {
+        plugin.execute(new Runnable() {
             @Override
-            public Void execute() {
+            public void run() {
                 player.sendMessage(message);
-                return null;
             }
         });
     }
 
     @Override
     public Server getServer() {
-        return server;
+        return plugin.getLocalServer();
     }
 
     @Override

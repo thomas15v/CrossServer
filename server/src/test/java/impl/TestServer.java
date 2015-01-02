@@ -6,6 +6,7 @@ import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ public class TestServer implements Server {
     @Getter
     private String name;
     @Getter
+    @Setter
     private ServerStatus status;
 
     private Plugin plugin;

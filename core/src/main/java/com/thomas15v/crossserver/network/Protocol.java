@@ -1,10 +1,12 @@
 package com.thomas15v.crossserver.network;
 
 import com.thomas15v.crossserver.network.packet.Packet;
+import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
-import com.thomas15v.crossserver.network.packet.client.PacketPlayerStatusChangePacket;
+import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
-import com.thomas15v.crossserver.network.packet.server.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
 import io.netty.buffer.ByteBuf;
 
 import java.lang.reflect.Constructor;
@@ -21,6 +23,8 @@ public class Protocol {
         packets[0x2] = PacketAuthentationResult.class;
         packets[0x3] = PacketServerStatusChanged.class;
         packets[0x4] = PacketPlayerStatusChangePacket.class;
+        packets[0x5] = PacketBye.class;
+        packets[0x6] = PacketMessage.class;
     }
 
     private static class NullPacket extends Packet{

@@ -1,0 +1,6 @@
+#surefire
+#Thu Jan 01 18:22:49 CET 2015
+user.dir=/home/thomas15v/IdeaProjects/ServerCommunication/core
+idea.version=14.0.1
+localRepository=/home/thomas15v/.m2/repository
+basedir=/home/thomas15v/IdeaProjects/ServerCommunication/core

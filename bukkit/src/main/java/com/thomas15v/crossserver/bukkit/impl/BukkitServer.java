@@ -1,6 +1,5 @@
 package com.thomas15v.crossserver.bukkit.impl;
 
-import com.thomas15v.crossserver.api.Task;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
@@ -22,6 +21,7 @@ public class BukkitServer implements Server, Listener {
 
     private Map<String, Player> players = new HashMap<>();
     @Getter
+    @Setter
     private ServerStatus status = ServerStatus.ONLINE;
 
     @Override
@@ -47,16 +47,17 @@ public class BukkitServer implements Server, Listener {
 
     @Override
     public void addPlayer(Player player) {
+        System.out.print(this + " added player");
         players.put(player.getName(), player);
         plugin.getCrossServer().reportPlayerStatus(player, PlayerStatus.JOINED);
     }
 
     @Override
     public void broadcast(final String string) {
-        plugin.execute(new Task<Integer>() {
+        plugin.execute(new Runnable() {
             @Override
-            public Integer execute() {
-                return plugin.getServer().broadcastMessage(string);
+            public void run() {
+                plugin.getServer().broadcastMessage(string);
             }
         });
     }

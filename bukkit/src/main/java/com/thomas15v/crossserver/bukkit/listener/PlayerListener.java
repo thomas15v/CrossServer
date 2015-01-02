@@ -24,6 +24,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+        System.out.println("event player join");
         plugin.getLocalServer().addPlayer(new BukkitPlayer(plugin, event.getPlayer()));
     }
 

@@ -1,7 +1,6 @@
 package impl;
 
 import com.thomas15v.crossserver.api.Plugin;
-import com.thomas15v.crossserver.api.Task;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.client.Client;
@@ -41,7 +40,7 @@ public class TestPlugin implements Plugin {
     }
 
     @Override
-    public <I> I execute(Task<I> task) {
-        return task.execute();
+    public void execute(Runnable task) {
+        task.run();
     }
 }

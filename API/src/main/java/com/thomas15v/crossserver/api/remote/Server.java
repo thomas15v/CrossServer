@@ -22,4 +22,6 @@ public interface Server {
     void broadcast(String string);
 
     ServerStatus getStatus();
+
+    void setStatus(ServerStatus status);
 }

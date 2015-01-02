@@ -7,6 +7,7 @@ import com.thomas15v.crossserver.network.ChannelWrapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class ConnectedServer implements Server {
     @NonNull
     public ChannelWrapper channel;
     @Getter
+    @Setter
     @NonNull
     private ServerStatus status;
 
@@ -54,7 +56,9 @@ public class ConnectedServer implements Server {
     }
 
     @Override
-    public void broadcast(String string) {
+    public void broadcast(String string) {}
 
+    public void disconnect(){
+        channel.disconnect();
     }
 }

@@ -4,7 +4,7 @@ import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
-import com.thomas15v.crossserver.network.packet.server.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
 import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
 

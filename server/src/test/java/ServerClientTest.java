@@ -27,7 +27,7 @@ public class ServerClientTest {
         new Thread(crossServer).start();
     }
 
-    @Test
+    //@Test
     public void TestLogin() throws InterruptedException {
         Assert.assertTrue(startAndQuitClient());
     }
@@ -39,7 +39,7 @@ public class ServerClientTest {
         return value;
     }
 
-    @Test
+    //@Test
     public void testClientJoinConnect() throws InterruptedException {
         boolean value = true;
         for (int i = 0; 10 > i; i++) {
@@ -49,7 +49,7 @@ public class ServerClientTest {
         Assert.assertTrue(value);
     }
 
-    @Test
+    //@Test
     public void testPlayerJoin() throws InterruptedException {
         Plugin plugin1 = new TestPlugin("AddedPlayer");
         Thread.sleep(100);

@@ -3,7 +3,6 @@ package com.thomas15v.crossserver.network.packet.server;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
-import lombok.Getter;
 
 /**
  * Created by thomas15v on 25/12/14.

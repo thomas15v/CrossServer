@@ -4,14 +4,16 @@ import com.thomas15v.crossserver.api.Plugin;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by thomas15v on 26/12/14.
  */
 public interface CrossServer extends Runnable {
 
-    List<Server> getServers();
+    Collection<Server> getServers();
+
+    Server getServer(String server);
 
     ConnectionStatus getStatus();
 
@@ -21,4 +23,5 @@ public interface CrossServer extends Runnable {
 
     void reportPlayerStatus(Player player, PlayerStatus playerStatus);
 
+    void stop();
 }

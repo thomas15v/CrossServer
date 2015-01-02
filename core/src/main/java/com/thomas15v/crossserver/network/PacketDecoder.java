@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.network;
 
+import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -14,11 +15,10 @@ public class PacketDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ch, ByteBuf byteBuf, List<Object> list) throws Exception {
         try {
             int id = byteBuf.readInt();
-            System.out.println(id);
             list.add(Protocol.getPacket(id).decode(byteBuf));
         }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("decoder stopped");
+            list.add(new PacketBye(true));
+            ch.close();
         }
 
     }

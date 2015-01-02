@@ -2,9 +2,12 @@ package com.thomas15v.crossserver.network.packet;
 
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
+import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.remote.RemotePlayer;
+import com.thomas15v.crossserver.network.remote.RemoteServer;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -39,14 +42,6 @@ public abstract class Packet {
             chars[i] = buf.readChar();
         }
         return new String( chars );
-    }
-
-    public Player readPlayer(ByteBuf buf){
-        return new RemotePlayer(readString(buf));
-    }
-
-    public void writePlayer(Player player, ByteBuf buf){
-        writeString(player.getName(), buf);
     }
 
     public abstract void handle(PacketHandler packetHandler);

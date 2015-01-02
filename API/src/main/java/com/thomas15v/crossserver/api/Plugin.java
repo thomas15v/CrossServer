@@ -12,7 +12,7 @@ public interface Plugin {
 
     String getPassword();
 
-    <I> I execute(Task<I> task);
+    void execute(Runnable task);
 
     CrossServer getCrossServer();
 }

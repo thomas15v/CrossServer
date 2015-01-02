@@ -8,6 +8,6 @@ package com.thomas15v.crossserver.api.util;
 public enum ServerStatus {
     OFFLINE,
     ONLINE,
-    RESTARTING,
-    MAINTENANCE,
+    CRASHED,
+    RESTARTING
 }

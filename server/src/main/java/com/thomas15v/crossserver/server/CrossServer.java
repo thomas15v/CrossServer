@@ -1,5 +1,7 @@
 package com.thomas15v.crossserver.server;
 
+import com.thomas15v.crossserver.api.remote.Player;
+import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -32,7 +34,7 @@ public class CrossServer implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("started!");
+        System.out.println("starting....");
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
@@ -43,18 +45,15 @@ public class CrossServer implements Runnable {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
                     if (channelFuture.isSuccess())
-                        System.out.println("Succesfully Bounded");
+                        System.out.println("Server succesfully started on /127.0.0.1:" + port);
                 }
             });
-            System.out.println("waiting");
             f.channel().closeFuture().sync();
-            System.out.println("closed!");
         }catch (Exception e){
-            stop();
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
-            System.out.println("stopped");
             e.printStackTrace();
+        }finally {
+            System.out.println("Server has stopped");
+            stop();
         }
     }
 
@@ -69,8 +68,21 @@ public class CrossServer implements Runnable {
     }
 
     public void stop(){
-
+        workerGroup.shutdownGracefully();
+        bossGroup.shutdownGracefully();
     }
 
+    public ConnectedServer getServer(String name){
+        return clients.get(name);
+    }
+
+    public Player getPlayer(String name){
+        for (ConnectedServer client : clients.values()) {
+            Player player = client.getPlayer(name);
+            if (player != null)
+                return player;
+        }
+        return null;
+    }
 
 }
