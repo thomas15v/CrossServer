@@ -1,1 +1,7 @@
 .idea
+*.jar
+*.iml
+./*/target
+.gitignore~
+core/target/
+*.MF
