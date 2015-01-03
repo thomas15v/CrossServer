@@ -15,7 +15,8 @@ public class PacketMessage extends Packet {
     public enum MessageType {
         SERVER,
         PLAYER,
-        CHANNEL
+        CHANNEL,
+        BROADCAST
     }
 
     @Getter
@@ -29,25 +30,29 @@ public class PacketMessage extends Packet {
         super(0x6);
     }
 
+    public PacketMessage(String message){
+        this("NA",MessageType.BROADCAST, message);
+    }
+
     public PacketMessage(String target, MessageType type, String message){
         this();
-        this.target = target;
         this.type = type;
+        this.target = target;
         this.message = message;
     }
 
     @Override
     public Packet decode(ByteBuf buf) {
-        target = readString(buf);
         type = MessageType.valueOf(readString(buf));
+        target = readString(buf);
         message = readString(buf);
         return this;
     }
 
     @Override
     public Packet encode(ByteBuf buf) {
-        writeString(target, buf);
         writeString(type.name(), buf);
+        writeString(target, buf);
         writeString(message, buf);
         return this;
     }

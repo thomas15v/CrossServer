@@ -4,6 +4,7 @@ import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
+import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
 import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
 import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
@@ -40,9 +41,10 @@ public class ConnectionInitializer extends PacketHandler {
                 return;
             }
             ConnectedServer connectedServer = new ConnectedServer(packet.getServerName(), cw);
+            cw.sendPacket(new PacketAuthentationResult(true));
+            cw.sendPacket(new PacketInformationUpdate(crossServer.getClients().values()));
             crossServer.getClients().put(packet.getServerName(), connectedServer);
             System.out.println(packet.getServerName() + " logged in");
-            cw.sendPacket(new PacketAuthentationResult(true));
             cw.getConnection().setPacketHandler(new ServerHandler(connectedServer, crossServer));
             crossServer.broadCast(new PacketServerStatusChanged(connectedServer), connectedServer);
         }else

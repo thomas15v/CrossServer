@@ -4,10 +4,7 @@ import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -15,6 +12,7 @@ import java.util.UUID;
  * Created by thomas15v on 26/12/14.
  */
 @RequiredArgsConstructor
+@ToString
 public class RemotePlayer implements Player {
 
     @NonNull

@@ -5,3 +5,10 @@
 .gitignore~
 core/target/
 *.MF
+API/target/
+bukkit/target/
+crosschat/target/
+server/dependency-reduced-pom.xml
+server/target/
+sponge/target/
+

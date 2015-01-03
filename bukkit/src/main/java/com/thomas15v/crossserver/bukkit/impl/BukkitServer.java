@@ -14,6 +14,7 @@ import java.util.*;
  * Created by thomas15v on 27/12/14.
  */
 @RequiredArgsConstructor
+@ToString
 public class BukkitServer implements Server, Listener {
 
     @NonNull

@@ -36,11 +36,10 @@ public class ClientHandler extends PacketHandler{
     @Override
     public void handle(PacketPlayerStatusChangePacket packet) {
         System.out.println(packet);
-        if (client.getServers().contains(packet.getServername()))
+        if (!client.getServers().contains(packet.getServername()))
             client.addServer(new RemoteServer(packet.getServername(), channel));
         Player player = new RemotePlayer(packet.getPlayername(), channel);
         client.getServer(packet.getServername()).addPlayer(player);
-        player.sendMessage("Hi Player");
         System.out.println(packet.getPlayername() + "has " + packet.getStatus() + " on " + packet.getServername());
     }
 
@@ -48,6 +47,8 @@ public class ClientHandler extends PacketHandler{
     public void handle(PacketMessage packet) {
         if (packet.getType() == PacketMessage.MessageType.PLAYER)
             client.getPlugin().getLocalServer().getPlayer(packet.getTarget()).sendMessage(packet.getMessage());
+        if (packet.getType() == PacketMessage.MessageType.BROADCAST || packet.getType() == PacketMessage.MessageType.SERVER)
+            client.getPlugin().getLocalServer().broadcast(packet.getMessage());
         System.out.println(packet.getMessage() + " This is a client message");
     }
 }

@@ -1,0 +1,4 @@
+name: crosschat
+main: com.thomas15v.crossserver.crosschat.BukkitPlugin
+version: 1.0
+depend: [CrossServer]

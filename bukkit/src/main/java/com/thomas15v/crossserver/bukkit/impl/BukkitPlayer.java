@@ -6,6 +6,7 @@ import com.thomas15v.crossserver.bukkit.CrossServerPlugin;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
  * Created by thomas15v on 27/12/14.
  */
 @RequiredArgsConstructor
+@ToString
 public class BukkitPlayer implements Player{
 
     @NonNull

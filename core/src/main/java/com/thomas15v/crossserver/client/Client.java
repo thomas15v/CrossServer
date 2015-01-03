@@ -12,6 +12,7 @@ import com.thomas15v.crossserver.network.PacketDecoder;
 import com.thomas15v.crossserver.network.PacketEncoder;
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.packet.client.PacketBye;
+import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
 import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -20,12 +21,14 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.*;
 
 /**
  * Created by thomas15v on 25/12/14.
  */
+@ToString
 public class Client implements CrossServer {
 
     private int port = 5500;
@@ -101,5 +104,10 @@ public class Client implements CrossServer {
         getConnection().getChannel().sendPacket(new PacketBye());
         getConnection().getChannel().disconnect();
         running = false;
+    }
+
+    @Override
+    public void broadcast(String message) {
+        sendPacket(new PacketMessage(message));
     }
 }

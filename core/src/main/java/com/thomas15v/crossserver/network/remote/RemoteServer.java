@@ -4,10 +4,8 @@ import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.ChannelWrapper;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import lombok.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,6 +16,7 @@ import java.util.Map;
  * Created by thomas15v on 26/12/14.
  */
 @RequiredArgsConstructor
+@ToString
 public class RemoteServer implements Server {
 
     @Getter
@@ -56,7 +55,7 @@ public class RemoteServer implements Server {
     }
 
     @Override
-    public void broadcast(String string) {
-
+    public void broadcast(String message) {
+        channel.sendPacket(new PacketMessage(message));
     }
 }

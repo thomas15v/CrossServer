@@ -58,5 +58,7 @@ public class ServerHandler extends PacketHandler {
     public void handle(PacketMessage packet) {
         if (packet.getType() == PacketMessage.MessageType.PLAYER)
             crossServer.getPlayer(packet.getTarget()).sendMessage(packet.getMessage());
+        else if (packet.getType() == PacketMessage.MessageType.BROADCAST)
+            getCrossServer().broadCast(packet, server);
     }
 }

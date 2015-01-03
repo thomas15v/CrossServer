@@ -24,4 +24,6 @@ public interface CrossServer extends Runnable {
     void reportPlayerStatus(Player player, PlayerStatus playerStatus);
 
     void stop();
+
+    public void broadcast(String message);
 }
