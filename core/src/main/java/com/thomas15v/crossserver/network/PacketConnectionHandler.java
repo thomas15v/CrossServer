@@ -43,6 +43,7 @@ public class PacketConnectionHandler extends SimpleChannelInboundHandler<Packet>
 
     @Override
     protected void messageReceived(ChannelHandlerContext channelHandlerContext, Packet packet) throws Exception {
+        System.out.println(packet);
         synchronized (packetHandler) {
             packet.handle(getPacketHandler());
         }

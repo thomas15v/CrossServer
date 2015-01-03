@@ -6,7 +6,9 @@ import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class PacketServerStatusChanged extends Packet {
 
     @Getter

@@ -6,10 +6,12 @@ import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * This packets gives a list of new players,
  */
+@ToString
 public class PacketPlayerStatusChangePacket extends Packet {
 
     @Getter

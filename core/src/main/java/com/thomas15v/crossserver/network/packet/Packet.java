@@ -1,15 +1,10 @@
 package com.thomas15v.crossserver.network.packet;
 
-import com.thomas15v.crossserver.api.remote.Player;
-import com.thomas15v.crossserver.api.remote.Server;
-import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
-import com.thomas15v.crossserver.network.remote.RemotePlayer;
-import com.thomas15v.crossserver.network.remote.RemoteServer;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * Created by thomas15v on 25/12/14.

@@ -3,6 +3,7 @@ package com.thomas15v.crossserver.server;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.packet.Packet;
+import com.thomas15v.crossserver.network.remote.NullPlayer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -78,11 +79,14 @@ public class CrossServer implements Runnable {
 
     public Player getPlayer(String name){
         for (ConnectedServer client : clients.values()) {
+            System.out.println(client.getPlayers());
             Player player = client.getPlayer(name);
             if (player != null)
                 return player;
         }
-        return null;
+        return new NullPlayer(name);
     }
+
+
 
 }

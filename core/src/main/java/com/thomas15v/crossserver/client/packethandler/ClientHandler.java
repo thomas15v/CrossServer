@@ -35,6 +35,7 @@ public class ClientHandler extends PacketHandler{
 
     @Override
     public void handle(PacketPlayerStatusChangePacket packet) {
+        System.out.println(packet);
         if (client.getServers().contains(packet.getServername()))
             client.addServer(new RemoteServer(packet.getServername(), channel));
         Player player = new RemotePlayer(packet.getPlayername(), channel);
@@ -45,6 +46,8 @@ public class ClientHandler extends PacketHandler{
 
     @Override
     public void handle(PacketMessage packet) {
-        System.out.println(packet.getMessage());
+        if (packet.getType() == PacketMessage.MessageType.PLAYER)
+            client.getPlugin().getLocalServer().getPlayer(packet.getTarget()).sendMessage(packet.getMessage());
+        System.out.println(packet.getMessage() + " This is a client message");
     }
 }

@@ -4,10 +4,12 @@ import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Created by thomas15v on 2/01/15.
  */
+@ToString
 public class PacketBye extends Packet {
 
     @Getter

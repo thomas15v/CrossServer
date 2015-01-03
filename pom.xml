@@ -14,6 +14,7 @@
         <module>server</module>
         <module>bukkit</module>
         <module>sponge</module>
+        <module>crosschat</module>
     </modules>
 
     <dependencies>
