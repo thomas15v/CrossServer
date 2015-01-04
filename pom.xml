@@ -15,6 +15,7 @@
         <module>bukkit</module>
         <module>sponge</module>
         <module>crosschat</module>
+        <module>crossbans</module>
     </modules>
 
     <repositories>

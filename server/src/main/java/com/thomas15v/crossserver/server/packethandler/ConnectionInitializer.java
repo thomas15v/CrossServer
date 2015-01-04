@@ -7,6 +7,7 @@ import com.thomas15v.crossserver.network.packet.client.PacketLogin;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
 import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
 import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.remote.RemoteServer;
 import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
 
@@ -41,7 +42,7 @@ public class ConnectionInitializer extends PacketHandler {
                 disconnect(cw, "Their is already a server with this name connected!");
                 return;
             }
-            ConnectedServer connectedServer = new ConnectedServer(packet.getServerName(), cw);
+            RemoteServer connectedServer = new RemoteServer(packet.getServerName(), cw);
             System.out.println(packet.getServerName() + " logged in");
             cw.getConnection().setPacketHandler(new ServerHandler(connectedServer, crossServer));
             cw.sendPacket(new PacketAuthentationResult(true));

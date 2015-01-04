@@ -57,4 +57,9 @@ public class TestServer implements Server {
     public void broadcast(String string) {
         System.out.println("<" + name + " --> GLOBAL>: "  + string);
     }
+
+    @Override
+    public void ban(String player, String message) {
+
+    }
 }

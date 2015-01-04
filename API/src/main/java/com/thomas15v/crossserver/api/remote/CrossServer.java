@@ -26,4 +26,8 @@ public interface CrossServer extends Runnable {
     void stop();
 
     public void broadcast(String message);
+
+    public Player getPlayer(String name);
+
+    public Collection<Player> getPlayers();
 }

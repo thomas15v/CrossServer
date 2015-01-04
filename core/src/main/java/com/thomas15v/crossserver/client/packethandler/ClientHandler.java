@@ -7,10 +7,7 @@ import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
-import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
-import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
-import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
-import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.packet.shared.*;
 import com.thomas15v.crossserver.network.remote.RemotePlayer;
 import com.thomas15v.crossserver.network.remote.RemoteServer;
 import lombok.NonNull;
@@ -84,6 +81,13 @@ public class ClientHandler extends PacketHandler{
         for (String server : packet.getServers().keySet()) {
             addServer(server, packet.getServers().get(server));
         }
+    }
 
+    @Override
+    public void handle(PacketPlayerDisconnect packet) {
+        if (packet.getAction() == PacketPlayerDisconnect.Action.BAN){
+            client.getPlugin().getLocalServer().ban(packet.getUsername(), packet.getMessage());
+        }else  if (packet.getAction() == PacketPlayerDisconnect.Action.KICK)
+            client.getPlayer(packet.getUsername()).kick(packet.getMessage());
     }
 }

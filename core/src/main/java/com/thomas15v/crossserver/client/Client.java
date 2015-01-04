@@ -110,4 +110,22 @@ public class Client implements CrossServer {
     public void broadcast(String message) {
         sendPacket(new PacketMessage(message));
     }
+
+    @Override
+    public Player getPlayer(String name) {
+        for (Player player : getPlayers())
+            if (player.getName().equalsIgnoreCase(name))
+                return player;
+        return null;
+    }
+
+    @Override
+    public Collection<Player> getPlayers() {
+        List<Player> players = new ArrayList<>();
+        for (Server server : getServers()){
+            for (Player player : server.getPlayers())
+                players.add(player);
+        }
+        return players;
+    }
 }

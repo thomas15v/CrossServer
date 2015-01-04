@@ -6,9 +6,11 @@ import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import com.thomas15v.crossserver.network.packet.shared.PacketPlayerDisconnect;
 import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
 import com.thomas15v.crossserver.network.remote.RemotePlayer;
+import com.thomas15v.crossserver.network.remote.RemoteServer;
 import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
 import lombok.Getter;
@@ -23,7 +25,7 @@ public class ServerHandler extends PacketHandler {
 
     @Getter
     @NonNull
-    private ConnectedServer server;
+    private RemoteServer server;
 
     @Getter
     @NonNull
@@ -34,12 +36,11 @@ public class ServerHandler extends PacketHandler {
         crossServer.broadCast(packet, server);
         Player player = new RemotePlayer(packet.getPlayername(), server, server.getChannel());
         if (packet.getStatus() == PlayerStatus.JOINED) {
-            player.setServer(server);
             server.addPlayer(player);
             System.out.println(player.getName() + " Joined on " + server.getName());
         }else {
-            server.removePlayer(player.getName());
-            System.out.println(player.getName() + " has " + packet.getStatus().name() + " on " + server.getName());
+            server.removePlayer(packet.getPlayername());
+            System.out.println(packet.getPlayername() + " has " + packet.getStatus().name() + " on " + server.getName());
         }
     }
 
@@ -50,7 +51,7 @@ public class ServerHandler extends PacketHandler {
         crossServer.getClients().remove(server.getName());
         server.setStatus(ServerStatus.OFFLINE);
         crossServer.broadCast(new PacketServerStatusChanged(server), server);
-        server.disconnect();
+        server.getChannel().disconnect();
         System.out.println(server.getName() + " has disconnected; crashed: " + packet.isCrashed());
     }
 
@@ -60,5 +61,13 @@ public class ServerHandler extends PacketHandler {
             crossServer.getPlayer(packet.getTarget()).sendMessage(packet.getMessage());
         else if (packet.getType() == PacketMessage.MessageType.BROADCAST)
             getCrossServer().broadCast(packet, server);
+    }
+
+    @Override
+    public void handle(PacketPlayerDisconnect packet) {
+        if (packet.getAction() == PacketPlayerDisconnect.Action.BAN)
+            crossServer.broadCast(packet, server);
+        else if (packet.getAction() == PacketPlayerDisconnect.Action.KICK)
+            crossServer.getPlayer(packet.getUsername()).kick(packet.getMessage());
     }
 }

@@ -4,6 +4,7 @@ import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import com.thomas15v.crossserver.network.packet.shared.PacketPlayerDisconnect;
 import lombok.*;
 
 import java.util.UUID;
@@ -33,12 +34,12 @@ public class RemotePlayer implements Player {
 
     @Override
     public void kick(String kickMessage) {
-
+        channel.sendPacket(new PacketPlayerDisconnect(PacketPlayerDisconnect.Action.KICK, name, kickMessage));
     }
 
     @Override
     public void ban(String banMessage) {
-
+        channel.sendPacket(new PacketPlayerDisconnect(PacketPlayerDisconnect.Action.BAN, name, banMessage));
     }
 
     @Override

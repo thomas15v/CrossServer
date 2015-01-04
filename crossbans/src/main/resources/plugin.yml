@@ -1,0 +1,11 @@
+name: CrossBans
+main: com.thomas15v.crossserver.crossbans.BukkitPlugin
+version: 1.0
+depend: [CrossServer]
+commands:
+ cban:
+  description: Bans a player from the crossserver network
+  usage: /<command>
+ ckick:
+  description: Kicks a player from the crossserver network
+  usage: /<command>

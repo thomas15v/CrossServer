@@ -58,6 +58,11 @@ public class ConnectedServer implements Server {
     @Override
     public void broadcast(String string) {}
 
+    @Override
+    public void ban(String player, String message) {
+
+    }
+
     public void disconnect(){
         channel.disconnect();
     }

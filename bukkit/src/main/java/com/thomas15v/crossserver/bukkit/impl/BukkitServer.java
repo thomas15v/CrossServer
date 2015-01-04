@@ -6,7 +6,6 @@ import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.bukkit.CrossServerPlugin;
 import lombok.*;
-import org.bukkit.event.Listener;
 
 import java.util.*;
 
@@ -14,7 +13,7 @@ import java.util.*;
  * Created by thomas15v on 27/12/14.
  */
 @ToString
-public class BukkitServer implements Server, Listener {
+public class BukkitServer implements Server {
 
     @NonNull
     private CrossServerPlugin plugin;
@@ -67,5 +66,16 @@ public class BukkitServer implements Server, Listener {
                 plugin.getServer().broadcastMessage(string);
             }
         });
+    }
+
+    @Override
+    public void ban(String player, String message) {
+        org.bukkit.entity.Player onlineplayer =plugin.getServer().getPlayer(player);
+        if (onlineplayer == null)
+            plugin.getServer().getOfflinePlayer(player).setBanned(true);
+        else {
+            onlineplayer.kickPlayer(message);
+            onlineplayer.setBanned(true);
+        }
     }
 }

@@ -43,13 +43,13 @@ public class BukkitPlayer implements Player{
             }
         });
     }
-
     @Override
     public void ban(final String banMessage) {
         plugin.execute(new Runnable() {
             @Override
             public void run() {
                 player.kickPlayer(banMessage);
+                player.setBanned(true);
             }
         });
     }

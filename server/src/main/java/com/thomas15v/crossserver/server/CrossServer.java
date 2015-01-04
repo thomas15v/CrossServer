@@ -4,6 +4,7 @@ import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.remote.NullPlayer;
+import com.thomas15v.crossserver.network.remote.RemoteServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -13,6 +14,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
 
+import java.rmi.Remote;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ public class CrossServer implements Runnable {
     private int port = 5500;
     private String bindadress;
     @Getter
-    private Map<String, ConnectedServer> clients = new HashMap<>();
+    private Map<String, RemoteServer> clients = new HashMap<>();
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -58,8 +60,8 @@ public class CrossServer implements Runnable {
         }
     }
 
-    public void broadCast(Packet packet, ConnectedServer sender){
-        for (ConnectedServer connectedServer : clients.values())
+    public void broadCast(Packet packet, RemoteServer sender){
+        for (RemoteServer connectedServer : clients.values())
             if (connectedServer != sender)
                 connectedServer.getChannel().sendPacket(packet);
     }
@@ -73,12 +75,12 @@ public class CrossServer implements Runnable {
         bossGroup.shutdownGracefully();
     }
 
-    public ConnectedServer getServer(String name){
+    public RemoteServer getServer(String name){
         return clients.get(name);
     }
 
     public Player getPlayer(String name){
-        for (ConnectedServer client : clients.values()) {
+        for (RemoteServer client : clients.values()) {
             System.out.println(client.getPlayers());
             Player player = client.getPlayer(name);
             if (player != null)

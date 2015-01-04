@@ -24,4 +24,6 @@ public interface Server {
     ServerStatus getStatus();
 
     void setStatus(ServerStatus status);
+
+    void ban(String player, String message);
 }
