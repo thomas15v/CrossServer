@@ -3,6 +3,7 @@ package com.thomas15v.crossserver.crosschat;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,9 +18,12 @@ public class ChatListener implements Listener {
     @NonNull
     private CrossServer crossServer;
 
+    @NonNull
+    private Server server;
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(AsyncPlayerChatEvent event){
-        crossServer.broadcast(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+        crossServer.broadcast("[" + server.getServerName() + "]" + String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
     }
 
 }

@@ -5,47 +5,69 @@ import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
+import lombok.Getter;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by thomas15v on 3/01/15.
  */
 public class PacketInformationUpdate extends Packet {
 
-    private List<Server> servers;
-
-    private Map<String, List<String>> serverlist;
+    @Getter
+    private Map<String, Collection<String>> servers;
 
     public PacketInformationUpdate() {
         super(0x7);
+        servers = new HashMap<>();
     }
 
-    public PacketInformationUpdate(List<Server> servers) {
+    public PacketInformationUpdate(Collection<Server> servers) {
+        this();
+        for (Server server : servers) {
+            addServer(server);
+        }
+
+    }
+
+    public void addServer(Server server){
+        List<String> players = new ArrayList<>();
+        for (Player player : server.getPlayers())
+            players.add(player.getName());
+        servers.put(server.getName(), players);
+    }
+
+    public PacketInformationUpdate(Map<String, Collection<String>> servers){
         this();
         this.servers = servers;
     }
 
     @Override
     public Packet decode(ByteBuf buf) {
-        //read
-        buf.writeInt(servers.size());
-        for (Server server : servers){
-            writeString(server.getName(), buf);
-            Collection<Player> players = server.getPlayers();
-            buf.writeInt(players.size());
-            for (Player player : players)
-                writeString(player.getName(), buf);
-
+        int servers = buf.readInt();
+        System.out.println(servers);
+        for (int s = 0; s < servers; s++){
+            String servername = readString(buf);
+            int players = buf.readInt();
+            List<String> playersarray = new ArrayList<>();
+            for (int p = 0; p < players; p++)
+                playersarray.add(readString(buf));
+            this.servers.put(servername, playersarray);
         }
         return this;
     }
 
     @Override
     public Packet encode(ByteBuf buf) {
-        //write
+        buf.writeInt(servers.size());
+        for (String server : servers.keySet()){
+            writeString(server, buf);
+            Collection<String> players = servers.get(server);
+            buf.writeInt(players.size());
+            for (String player : players)
+                writeString(player, buf);
+
+        }
         return this;
     }
 

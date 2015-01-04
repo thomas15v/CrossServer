@@ -5,7 +5,8 @@ package com.thomas15v.crossserver.api.util;
  */
 public enum PlayerStatus{
     JOINED,
+    ONLINE,
     KICKED,
     BANNED,
-    LEFT, PlayerStatus;
+    LEFT,
 }

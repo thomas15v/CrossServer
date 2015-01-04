@@ -55,16 +55,16 @@ public class Client implements CrossServer {
         System.out.println("started!");
         EventLoopGroup group = new NioEventLoopGroup();
         try {
-            Bootstrap b = new Bootstrap();
-            b.group(group)
-                    .channel(NioSocketChannel.class)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), Connection);
-                        }
-                    });
             while (running) {
+                Bootstrap b = new Bootstrap();
+                b.group(group)
+                        .channel(NioSocketChannel.class)
+                        .handler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            protected void initChannel(SocketChannel ch) throws Exception {
+                                ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), Connection);
+                            }
+                        });
                 ChannelFuture f = b.connect(host, port).sync();
                 f.channel().closeFuture().sync();
                 Thread.sleep(10000);

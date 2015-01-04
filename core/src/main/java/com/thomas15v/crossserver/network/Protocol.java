@@ -3,6 +3,7 @@ package com.thomas15v.crossserver.network;
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
+import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
 import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
@@ -25,6 +26,7 @@ public class Protocol {
         packets[0x4] = PacketPlayerStatusChangePacket.class;
         packets[0x5] = PacketBye.class;
         packets[0x6] = PacketMessage.class;
+        packets[0x7] = PacketInformationUpdate.class;
     }
 
     private static class NullPacket extends Packet{

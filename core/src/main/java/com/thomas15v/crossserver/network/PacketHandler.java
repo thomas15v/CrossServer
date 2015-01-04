@@ -3,6 +3,7 @@ package com.thomas15v.crossserver.network;
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
+import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
 import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
 import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
@@ -33,5 +34,7 @@ public class PacketHandler{
     public void handle(PacketBye packet){}
 
     public void handle(PacketMessage packet){}
+
+    public void handle(PacketInformationUpdate packet){}
 
 }

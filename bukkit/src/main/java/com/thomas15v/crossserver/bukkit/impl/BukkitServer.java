@@ -13,7 +13,6 @@ import java.util.*;
 /**
  * Created by thomas15v on 27/12/14.
  */
-@RequiredArgsConstructor
 @ToString
 public class BukkitServer implements Server, Listener {
 
@@ -24,6 +23,14 @@ public class BukkitServer implements Server, Listener {
     @Getter
     @Setter
     private ServerStatus status = ServerStatus.ONLINE;
+
+    public BukkitServer(CrossServerPlugin plugin){
+        this.plugin = plugin;
+        for (org.bukkit.entity.Player player : plugin.getServer().getOnlinePlayers()) {
+            BukkitPlayer bukkitPlayer = new BukkitPlayer(plugin, player);
+            players.put(bukkitPlayer.getName(), bukkitPlayer);
+        }
+    }
 
     @Override
     public String getName() {
@@ -48,7 +55,6 @@ public class BukkitServer implements Server, Listener {
 
     @Override
     public void addPlayer(Player player) {
-        System.out.print(this + " added player");
         players.put(player.getName(), player);
         plugin.getCrossServer().reportPlayerStatus(player, PlayerStatus.JOINED);
     }

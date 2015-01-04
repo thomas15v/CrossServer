@@ -11,6 +11,6 @@ public class BukkitPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         Plugin plugin = (Plugin) getServer().getPluginManager().getPlugin("CrossServer");
-        getServer().getPluginManager().registerEvents(new ChatListener(plugin.getCrossServer()), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(plugin.getCrossServer(), getServer()), this);
     }
 }

@@ -16,11 +16,11 @@ public class ChannelWrapper {
         this.ctx = ctx;
     }
 
-    public void sendPacket(Packet packet){
+    public synchronized void sendPacket(Packet packet){
         ctx.writeAndFlush(packet);
     }
 
-    public void disconnect() {
+    public synchronized void disconnect() {
         ctx.channel().close();
     }
 

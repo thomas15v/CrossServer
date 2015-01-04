@@ -1,5 +1,6 @@
 package com.thomas15v.crossserver.server.packethandler;
 
+import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketLogin;
@@ -41,11 +42,18 @@ public class ConnectionInitializer extends PacketHandler {
                 return;
             }
             ConnectedServer connectedServer = new ConnectedServer(packet.getServerName(), cw);
-            cw.sendPacket(new PacketAuthentationResult(true));
-            cw.sendPacket(new PacketInformationUpdate(crossServer.getClients().values()));
-            crossServer.getClients().put(packet.getServerName(), connectedServer);
             System.out.println(packet.getServerName() + " logged in");
             cw.getConnection().setPacketHandler(new ServerHandler(connectedServer, crossServer));
+            cw.sendPacket(new PacketAuthentationResult(true));
+
+            //todo: clean this up ..... Its bad
+
+            PacketInformationUpdate packetInformationUpdate = new PacketInformationUpdate();
+            for (Server server : crossServer.getClients().values() )
+                packetInformationUpdate.addServer(server);
+            cw.sendPacket(packetInformationUpdate);
+            //end of the crap
+            crossServer.getClients().put(packet.getServerName(), connectedServer);
             crossServer.broadCast(new PacketServerStatusChanged(connectedServer), connectedServer);
         }else
         {

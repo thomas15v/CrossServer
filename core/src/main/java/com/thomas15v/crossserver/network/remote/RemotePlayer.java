@@ -12,20 +12,19 @@ import java.util.UUID;
  * Created by thomas15v on 26/12/14.
  */
 @RequiredArgsConstructor
-@ToString
 public class RemotePlayer implements Player {
 
     @NonNull
     @Getter
     private String name;
 
+    @Getter
+    @Setter
+    @NonNull
+    private Server server;
     @NonNull
     @Setter
     private ChannelWrapper channel;
-
-    @Getter
-    @Setter
-    private Server server;
 
     @Override
     public UUID getUUID() {
@@ -45,5 +44,10 @@ public class RemotePlayer implements Player {
     @Override
     public void sendMessage(String message) {
         channel.sendPacket(new PacketMessage(name, PacketMessage.MessageType.PLAYER, message));
+    }
+
+    @Override
+    public String toString() {
+        return "RemotePlayer(name:" + name + " server:" + server.getName() + ")";
     }
 }

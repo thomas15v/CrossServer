@@ -34,9 +34,11 @@ public class CrossServerPlugin extends JavaPlugin implements Plugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        for (Server server : crossServer.getServers())
-            sender.sendMessage(server.toString());
-        sender.sendMessage(crossServer.toString());
+        int count = 1;
+        for (Server server : crossServer.getServers()) {
+            sender.sendMessage(count + " " + server.toString());
+            count++;
+        }
         return true;
     }
 

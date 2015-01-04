@@ -32,7 +32,7 @@ public class ServerHandler extends PacketHandler {
     @Override
     public void handle(PacketPlayerStatusChangePacket packet) {
         crossServer.broadCast(packet, server);
-        Player player = new RemotePlayer(packet.getPlayername(), server.getChannel());
+        Player player = new RemotePlayer(packet.getPlayername(), server, server.getChannel());
         if (packet.getStatus() == PlayerStatus.JOINED) {
             player.setServer(server);
             server.addPlayer(player);
