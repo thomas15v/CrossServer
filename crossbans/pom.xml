@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>CrossBans</name>
-    <version>1.0bunge</version>
+    <version>1.0</version>
     <artifactId>crossbans</artifactId>
 
     <dependencies>
