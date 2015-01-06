@@ -1,0 +1,5 @@
+name: CrossUtils
+main: com.thomas15v.crosserver.crossutils.CrossUtilsPlugin
+version: 1.0b-Local
+commands:
+  ccmd:

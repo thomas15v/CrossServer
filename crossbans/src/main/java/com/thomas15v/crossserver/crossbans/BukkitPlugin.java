@@ -1,7 +1,6 @@
 package com.thomas15v.crossserver.crossbans;
 
 import com.thomas15v.crossserver.api.Plugin;
-import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.crossbans.command.CommandBan;
 import com.thomas15v.crossserver.crossbans.command.CommandKick;
@@ -17,13 +16,13 @@ import java.util.List;
  */
 public class BukkitPlugin extends JavaPlugin {
 
-    private CrossServer crossServer;
+    private Plugin plugin;
 
     @Override
     public void onEnable() {
-        this.crossServer = ((Plugin) getServer().getPluginManager().getPlugin("CrossServer")).getCrossServer();
-        getCommand("cban").setExecutor(new CommandBan(crossServer));
-        getCommand("ckick").setExecutor(new CommandKick(crossServer));
+        this.plugin = ((Plugin) getServer().getPluginManager().getPlugin("CrossServer"));
+        getCommand("cban").setExecutor(new CommandBan(plugin));
+        getCommand("ckick").setExecutor(new CommandKick(plugin.getCrossServer()));
     }
 
     @Override
@@ -31,7 +30,7 @@ public class BukkitPlugin extends JavaPlugin {
         String commandstring = command.getName();
         List<String> suggestions = new ArrayList<>();
         if (commandstring.equalsIgnoreCase("kick") || commandstring.equalsIgnoreCase("ban"))
-            for (Player player : crossServer.getPlayers())
+            for (Player player : plugin.getCrossServer().getPlayers())
                 suggestions.add(player.getName());
         return suggestions;
 

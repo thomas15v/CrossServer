@@ -1,6 +1,6 @@
 name: CrossBans
 main: com.thomas15v.crossserver.crossbans.BukkitPlugin
-version: 1.0
+version: 1.0bungeb-Local
 depend: [CrossServer]
 commands:
  cban:

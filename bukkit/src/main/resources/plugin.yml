@@ -1,5 +1,5 @@
 name: CrossServer
 main: com.thomas15v.crossserver.bukkit.CrossServerPlugin
-version: 1.0
+version: ${project.version}b-${build.number}
 commands:
   ccdebug:

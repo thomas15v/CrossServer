@@ -36,4 +36,7 @@ public class PacketHandler{
 
     public void handle(PacketPlayerDisconnect packet){}
 
+    public void handle(PacketPayload<?> packet){}
+
+    public void handle(PacketCommand packet){}
 }

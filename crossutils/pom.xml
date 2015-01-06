@@ -8,9 +8,9 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>CrossBans</name>
-    <version>1.0bunge</version>
-    <artifactId>crossbans</artifactId>
+    <name>CrossUtils</name>
+    <artifactId>crossutils</artifactId>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
@@ -39,5 +39,6 @@
             </resource>
         </resources>
     </build>
+
 
 </project>

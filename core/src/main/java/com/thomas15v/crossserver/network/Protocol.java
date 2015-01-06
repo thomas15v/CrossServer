@@ -17,14 +17,16 @@ public class Protocol {
     private static final Class<? extends Packet>[] packets = new Class[ 256 ];
 
     static {
-        packets[0x1] = PacketLogin.class;
-        packets[0x2] = PacketAuthentationResult.class;
-        packets[0x3] = PacketServerStatusChanged.class;
-        packets[0x4] = PacketPlayerStatusChangePacket.class;
-        packets[0x5] = PacketBye.class;
-        packets[0x6] = PacketMessage.class;
-        packets[0x7] = PacketInformationUpdate.class;
-        packets[0x8] = PacketPlayerDisconnect.class;
+        packets[0x1]    = PacketLogin.class;
+        packets[0x2]    = PacketAuthentationResult.class;
+        packets[0x3]    = PacketServerStatusChanged.class;
+        packets[0x4]    = PacketPlayerStatusChangePacket.class;
+        packets[0x5]    = PacketBye.class;
+        packets[0x6]    = PacketMessage.class;
+        packets[0x7]    = PacketInformationUpdate.class;
+        packets[0x8]    = PacketPlayerDisconnect.class;
+        packets[0x9]    = PacketPayload.class;
+        packets[0x10]   = PacketCommand.class;
     }
 
     private static class NullPacket extends Packet{

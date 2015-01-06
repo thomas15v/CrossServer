@@ -1,4 +1,12 @@
 name: crosschat
 main: com.thomas15v.crossserver.crosschat.BukkitPlugin
-version: 1.0
+version: ${project.version}b-${build.number}
 depend: [CrossServer]
+command:
+  cmsg:
+    description: Messages a player
+    usage: /<command>
+  creply:
+   alias: [cr]
+   description: Replies a player
+   usage: /<command>

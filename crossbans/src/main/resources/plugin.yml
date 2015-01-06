@@ -1,6 +1,6 @@
 name: CrossBans
 main: com.thomas15v.crossserver.crossbans.BukkitPlugin
-version: 1.0
+version: ${project.version}b-${build.number}
 depend: [CrossServer]
 commands:
  cban:

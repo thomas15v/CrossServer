@@ -5,10 +5,7 @@ import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.PacketHandler;
 import com.thomas15v.crossserver.network.packet.client.PacketBye;
-import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
-import com.thomas15v.crossserver.network.packet.shared.PacketPlayerDisconnect;
-import com.thomas15v.crossserver.network.packet.shared.PacketPlayerStatusChangePacket;
-import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
+import com.thomas15v.crossserver.network.packet.shared.*;
 import com.thomas15v.crossserver.network.remote.RemotePlayer;
 import com.thomas15v.crossserver.network.remote.RemoteServer;
 import com.thomas15v.crossserver.server.ConnectedServer;
@@ -69,5 +66,10 @@ public class ServerHandler extends PacketHandler {
             crossServer.broadCast(packet, server);
         else if (packet.getAction() == PacketPlayerDisconnect.Action.KICK)
             crossServer.getPlayer(packet.getUsername()).kick(packet.getMessage());
+    }
+
+    @Override
+    public void handle(PacketPayload<?> packet) {
+
     }
 }

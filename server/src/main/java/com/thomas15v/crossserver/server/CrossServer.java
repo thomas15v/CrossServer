@@ -81,7 +81,6 @@ public class CrossServer implements Runnable {
 
     public Player getPlayer(String name){
         for (RemoteServer client : clients.values()) {
-            System.out.println(client.getPlayers());
             Player player = client.getPlayer(name);
             if (player != null)
                 return player;

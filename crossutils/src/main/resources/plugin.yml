@@ -1,0 +1,5 @@
+name: CrossUtils
+main: com.thomas15v.crosserver.crossutils.CrossUtilsPlugin
+version: ${project.version}b-${build.number}
+commands:
+  ccmd:

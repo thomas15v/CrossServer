@@ -39,6 +39,20 @@ public abstract class Packet {
         return new String( chars );
     }
 
+    public String[] readStringArray(ByteBuf buf){
+        int length = buf.readInt();
+        String[] array = new String[length];
+        for (int i = 0; i < length; i++)
+            array[i] = readString(buf);
+        return array;
+    }
+
+    public void writeStringArray(String[] array, ByteBuf buf){
+        buf.writeInt(array.length);
+        for (String str : array)
+            writeString(str, buf);
+    }
+
     public abstract void handle(PacketHandler packetHandler);
 
 }
