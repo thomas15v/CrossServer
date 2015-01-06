@@ -1,4 +1,4 @@
-CrossServer
+CrossServer [![Build Status](http://vps28166.vps.ovh.ca:8080/buildStatus/icon?job=CrossServer)](http://vps28166.vps.ovh.ca:8080/job/CrossServer/)
 ===========
 
 Cross server communication framework for bukkit and sponge
