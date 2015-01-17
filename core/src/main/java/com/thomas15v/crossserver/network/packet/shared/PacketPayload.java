@@ -10,14 +10,17 @@ import java.io.*;
 /**
  * Created by thomas15v on 5/01/15.
  */
-public class PacketPayload<I extends PayLoad> extends Packet {
+public class PacketPayload extends Packet {
 
     public static final String BROADCAST = "NA";
 
     @Getter
     private String service;
+
+    private PayLoad payload;
     @Getter
-    private I payload;
+    private byte[] payloadbytes;
+
     @Getter
     private String target;
 
@@ -25,14 +28,14 @@ public class PacketPayload<I extends PayLoad> extends Packet {
         super(0x9);
     }
 
-    public PacketPayload(String target, String service, I payload){
+    public PacketPayload(String target, String service, PayLoad payload){
         this();
         this.target = target;
         this.service = service;
         this.payload = payload;
     }
 
-    public PacketPayload(String service, I payload){
+    public PacketPayload(String service, PayLoad payload){
         this(BROADCAST, service, payload);
     }
 
@@ -40,20 +43,14 @@ public class PacketPayload<I extends PayLoad> extends Packet {
         writeString(target, buf);
         writeString(service, buf);
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutput out = null;
-        try {
-            out = new ObjectOutputStream(bos);
-            out.writeObject(payload);
-            byte[] bytes = bos.toByteArray();
-            buf.writeInt(bytes.length);
-            for (byte b : bytes)
-                buf.writeByte(b);
-            bos.close();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        byte[] bytes;
+        if (payload!= null)
+            bytes = getBytes(payload);
+        else
+            bytes = payloadbytes;
+
+        buf.writeInt(bytes.length);
+        buf.writeBytes(bytes);
         return this;
     }
 
@@ -61,16 +58,36 @@ public class PacketPayload<I extends PayLoad> extends Packet {
     public Packet decode(ByteBuf buf){
         target = readString(buf);
         service = readString(buf);
-
         int length = buf.readInt();
         byte[] bytes = new byte[length];
-        for (int i = 0; i < length; i++)
-            bytes[i] = buf.readByte();
+        buf.readBytes(bytes);
+        this.payloadbytes = bytes;
+        return this;
+    }
+
+    private byte[] getBytes(Object object){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = null;
+        byte[] bytes = null;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(payload);
+            bytes = bos.toByteArray();
+            bos.close();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+    private PayLoad getObject(byte[] bytes){
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
         ObjectInput in = null;
+        PayLoad object = null;
         try {
             in = new ObjectInputStream(bis);
-            payload = (I) in.readObject();
+            object = (PayLoad) in.readObject();
             in.close();
             bis.close();
         } catch (ClassNotFoundException e) {
@@ -78,7 +95,13 @@ public class PacketPayload<I extends PayLoad> extends Packet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return this;
+        return object;
+    }
+
+    public PayLoad getPayload() {
+        if (payload == null)
+            payload = getObject(payloadbytes);
+        return payload;
     }
 
     @Override

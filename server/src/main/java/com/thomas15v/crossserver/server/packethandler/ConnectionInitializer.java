@@ -8,7 +8,6 @@ import com.thomas15v.crossserver.network.packet.server.PacketAuthentationResult;
 import com.thomas15v.crossserver.network.packet.shared.PacketInformationUpdate;
 import com.thomas15v.crossserver.network.packet.shared.PacketServerStatusChanged;
 import com.thomas15v.crossserver.network.remote.RemoteServer;
-import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
 
 /**
@@ -16,7 +15,6 @@ import com.thomas15v.crossserver.server.CrossServer;
  */
 public class ConnectionInitializer extends PacketHandler {
 
-    private String password = "123456";
     private CrossServer crossServer;
     private ChannelWrapper cw;
 
@@ -37,7 +35,7 @@ public class ConnectionInitializer extends PacketHandler {
 
     @Override
     public void handle(PacketLogin packet){
-        if (packet.getPassword().equals(password)) {
+        if (packet.getPassword().equals(crossServer.getPassword())) {
             if (crossServer.getClients().containsKey(packet.getServerName())) {
                 disconnect(cw, "Their is already a server with this name connected!");
                 return;

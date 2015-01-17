@@ -1,5 +1,7 @@
 package com.thomas15v.crossserver.bukkit.impl;
 
+import com.thomas15v.crossserver.api.PayLoad;
+import com.thomas15v.crossserver.api.event.events.payload.PayloadRecievedEvent;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
@@ -77,5 +79,10 @@ public class BukkitServer implements Server {
             onlineplayer.kickPlayer(message);
             onlineplayer.setBanned(true);
         }
+    }
+
+    @Override
+    public void sendPayLoad(PayLoad payLoad, String service) {
+        plugin.getCrossServer().getEventBus().call(new PayloadRecievedEvent(payLoad, service));
     }
 }

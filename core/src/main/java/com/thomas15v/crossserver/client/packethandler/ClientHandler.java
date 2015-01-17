@@ -90,4 +90,9 @@ public class ClientHandler extends PacketHandler{
         }else  if (packet.getAction() == PacketPlayerDisconnect.Action.KICK)
             client.getPlayer(packet.getUsername()).kick(packet.getMessage());
     }
+
+    @Override
+    public void handle(PacketPayload packet) {
+        client.getServer(packet.getTarget()).sendPayLoad(packet.getPayload(), packet.getService());
+    }
 }

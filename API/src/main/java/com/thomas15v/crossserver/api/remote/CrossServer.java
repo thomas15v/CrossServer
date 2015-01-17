@@ -1,6 +1,7 @@
 package com.thomas15v.crossserver.api.remote;
 
 import com.thomas15v.crossserver.api.Plugin;
+import com.thomas15v.crossserver.api.event.EventBus;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
 
@@ -30,4 +31,6 @@ public interface CrossServer extends Runnable {
     public Player getPlayer(String name);
 
     public Collection<Player> getPlayers();
+
+    public EventBus getEventBus();
 }

@@ -1,10 +1,12 @@
 package com.thomas15v.crossserver.network.remote;
 
+import com.thomas15v.crossserver.api.PayLoad;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.api.util.ServerStatus;
 import com.thomas15v.crossserver.network.ChannelWrapper;
 import com.thomas15v.crossserver.network.packet.shared.PacketMessage;
+import com.thomas15v.crossserver.network.packet.shared.PacketPayload;
 import com.thomas15v.crossserver.network.packet.shared.PacketPlayerDisconnect;
 import lombok.*;
 
@@ -63,5 +65,10 @@ public class RemoteServer implements Server {
     @Override
     public void ban(String player, String message) {
         channel.sendPacket(new PacketPlayerDisconnect(PacketPlayerDisconnect.Action.BAN, player, message));
+    }
+
+    @Override
+    public void sendPayLoad(PayLoad payLoad, String service) {
+        channel.sendPacket(new PacketPayload(getName(), service, payLoad));
     }
 }

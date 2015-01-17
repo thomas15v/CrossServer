@@ -12,6 +12,10 @@ public interface Plugin {
 
     String getPassword();
 
+    String getServerAdress();
+
+    int getServerPort();
+
     void execute(Runnable task);
 
     CrossServer getCrossServer();

@@ -1,6 +1,7 @@
 package com.thomas15v.crossserver.client;
 
 import com.thomas15v.crossserver.api.Plugin;
+import com.thomas15v.crossserver.api.event.EventBus;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
@@ -43,8 +44,11 @@ public class Client implements CrossServer {
     @Getter
     private final PacketConnectionHandler Connection;
     private boolean running = true;
+    @Getter
+    private EventBus eventBus;
 
     public Client(Plugin plugin){
+        this.eventBus = new EventBus();
         this.plugin = plugin;
         servers.put(plugin.getLocalServer().getName(), plugin.getLocalServer());
         Connection = new PacketConnectionHandler(new ConnectionInitializer(this));
@@ -65,7 +69,7 @@ public class Client implements CrossServer {
                                 ch.pipeline().addLast(new PacketDecoder(), new PacketEncoder(), Connection);
                             }
                         });
-                ChannelFuture f = b.connect(host, port).sync();
+                ChannelFuture f = b.connect(plugin.getServerAdress(), plugin.getServerPort()).sync();
                 f.channel().closeFuture().sync();
                 Thread.sleep(10000);
                 System.out.println("Disconnected, reconnecting in 10 sec");

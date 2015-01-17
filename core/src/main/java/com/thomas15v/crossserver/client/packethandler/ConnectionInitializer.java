@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class ConnectionInitializer extends PacketHandler {
 
     private ChannelWrapper cw;
-    private String password = "123456";
     @NonNull
     private Client client;
 
@@ -44,7 +43,7 @@ public class ConnectionInitializer extends PacketHandler {
         this.cw = cw;
         System.out.println("Connected");
         client.setStatus(ConnectionStatus.AUTHORIZING);
-        cw.sendPacket(new PacketLogin(client.getPlugin().getLocalServer().getName(), password));
+        cw.sendPacket(new PacketLogin(client.getPlugin().getLocalServer().getName(), client.getPlugin().getPassword()));
     }
 
     @Override

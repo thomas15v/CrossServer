@@ -22,6 +22,7 @@
         <module>crosschat</module>
         <module>crossbans</module>
         <module>crossutils</module>
+        <module>config</module>
     </modules>
 
     <repositories>
@@ -36,12 +37,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.14.8</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>1.2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

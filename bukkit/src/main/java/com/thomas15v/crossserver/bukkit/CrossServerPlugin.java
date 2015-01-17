@@ -1,16 +1,22 @@
 package com.thomas15v.crossserver.bukkit;
 
+import com.thomas15v.crossserver.api.PayLoad;
 import com.thomas15v.crossserver.api.Plugin;
+import com.thomas15v.crossserver.api.event.EventListener;
+import com.thomas15v.crossserver.api.event.events.payload.PayloadRecievedEvent;
 import com.thomas15v.crossserver.api.remote.CrossServer;
-import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.bukkit.impl.BukkitServer;
 import com.thomas15v.crossserver.bukkit.listener.PlayerListener;
 import com.thomas15v.crossserver.client.Client;
+import com.thomas15v.crossserver.config.ConfigFile;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.InputStream;
 
 
 /**
@@ -24,8 +30,20 @@ public class CrossServerPlugin extends JavaPlugin implements Plugin {
     @Getter
     private Server localServer;
 
+    private ConfigFile configFile;
+    @Getter
+    private String serverAdress;
+    @Getter
+    private int serverPort;
+    @Getter
+    private String password;
+
     @Override
     public void onEnable() {
+        if (!getDataFolder().exists())
+            getDataFolder().mkdir();
+        this.configFile = new ConfigFile(new File(getDataFolder(), "config.conf"), this.getClassLoader());
+        LoadConfig();
         this.localServer = new BukkitServer(this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         this.crossServer = new Client(this);
@@ -43,17 +61,24 @@ public class CrossServerPlugin extends JavaPlugin implements Plugin {
     }
 
     @Override
+    public InputStream getResource(String filename) {
+        return super.getResource(filename);
+    }
+
+    @Override
     public void onDisable() {
         crossServer.stop();
     }
 
     @Override
-    public String getPassword() {
-        return "123456";
-    }
-
-    @Override
     public void execute(Runnable task) {
         getServer().getScheduler().runTask(this, task);
+    }
+
+    private void LoadConfig() {
+        serverAdress = configFile.getConfig().getString("server-ip");
+        serverAdress = serverAdress.equals("") ? "127.0.0.1" : serverAdress;
+        serverPort = configFile.getConfig().getInt("port");
+        password = configFile.getConfig().getString("password");
     }
 }

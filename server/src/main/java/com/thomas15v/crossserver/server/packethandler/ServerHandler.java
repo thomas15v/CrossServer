@@ -8,7 +8,6 @@ import com.thomas15v.crossserver.network.packet.client.PacketBye;
 import com.thomas15v.crossserver.network.packet.shared.*;
 import com.thomas15v.crossserver.network.remote.RemotePlayer;
 import com.thomas15v.crossserver.network.remote.RemoteServer;
-import com.thomas15v.crossserver.server.ConnectedServer;
 import com.thomas15v.crossserver.server.CrossServer;
 import lombok.Getter;
 import lombok.NonNull;
@@ -69,7 +68,7 @@ public class ServerHandler extends PacketHandler {
     }
 
     @Override
-    public void handle(PacketPayload<?> packet) {
-
+    public void handle(PacketPayload packet) {
+        crossServer.getServer(packet.getTarget()).getChannel().sendPacket(packet);
     }
 }
