@@ -24,7 +24,8 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerChat(AsyncPlayerChatEvent event){
         for (com.thomas15v.crossserver.api.remote.Server server : crossServer.getServers()) {
-            server.broadcast("[" + this.server.getServerName() + "]" + String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+            if (server != this.server)
+                server.broadcast("[" + this.server.getServerName() + "]" + String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
         }
     }
 
