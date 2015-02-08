@@ -1,7 +1,6 @@
 package com.thomas15v.crossserver.server;
 
 import com.thomas15v.crossserver.api.remote.Player;
-import com.thomas15v.crossserver.client.Client;
 import com.thomas15v.crossserver.config.ConfigFile;
 import com.thomas15v.crossserver.network.packet.Packet;
 import com.thomas15v.crossserver.network.remote.NullPlayer;
@@ -16,7 +15,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
 
 import java.io.File;
-import java.rmi.Remote;
 import java.util.HashMap;
 import java.util.Map;
 

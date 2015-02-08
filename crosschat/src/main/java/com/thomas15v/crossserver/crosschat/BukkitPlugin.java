@@ -1,6 +1,5 @@
 package com.thomas15v.crossserver.crosschat;
 
-import com.google.common.collect.Lists;
 import com.thomas15v.crossserver.api.Plugin;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.config.ConfigFile;
@@ -23,7 +22,6 @@ public class BukkitPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.configFile = new ConfigFile(new File(getDataFolder(), "config.conf"), this.getClassLoader());
-        configFile.set("blacklistedsevers", Lists.newArrayList("craft", "shit", "ppoo"));
         this.plugin = (Plugin) getServer().getPluginManager().getPlugin("CrossServer");
         getServer().getPluginManager().registerEvents(new ChatListener(plugin.getCrossServer(), getServer()), this);
     }

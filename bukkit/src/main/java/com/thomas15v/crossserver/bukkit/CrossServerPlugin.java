@@ -1,9 +1,6 @@
 package com.thomas15v.crossserver.bukkit;
 
-import com.thomas15v.crossserver.api.PayLoad;
 import com.thomas15v.crossserver.api.Plugin;
-import com.thomas15v.crossserver.api.event.EventListener;
-import com.thomas15v.crossserver.api.event.events.payload.PayloadRecievedEvent;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Server;
 import com.thomas15v.crossserver.bukkit.impl.BukkitServer;

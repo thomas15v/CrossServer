@@ -5,6 +5,8 @@ import com.thomas15v.crossserver.api.event.EventBus;
 import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Player;
 import com.thomas15v.crossserver.api.remote.Server;
+import com.thomas15v.crossserver.api.remote.nullremotes.NullPlayer;
+import com.thomas15v.crossserver.api.remote.nullremotes.NullServer;
 import com.thomas15v.crossserver.api.util.ConnectionStatus;
 import com.thomas15v.crossserver.api.util.PlayerStatus;
 import com.thomas15v.crossserver.client.packethandler.ConnectionInitializer;
@@ -57,9 +59,9 @@ public class Client implements CrossServer {
     @Override
     public void run() {
         System.out.println("started!");
-        EventLoopGroup group = new NioEventLoopGroup();
         try {
             while (running) {
+                EventLoopGroup group = new NioEventLoopGroup();
                 Bootstrap b = new Bootstrap();
                 b.group(group)
                         .channel(NioSocketChannel.class)
@@ -71,12 +73,13 @@ public class Client implements CrossServer {
                         });
                 ChannelFuture f = b.connect(plugin.getServerAdress(), plugin.getServerPort()).sync();
                 f.channel().closeFuture().sync();
-                Thread.sleep(10000);
+                group.shutdownGracefully();
                 System.out.println("Disconnected, reconnecting in 10 sec");
+                Thread.sleep(10000);
             }
             System.out.println("closed!");
         }catch (Exception e){
-            group.shutdownGracefully();
+            stop();
             e.printStackTrace();
         }
     }
@@ -88,7 +91,10 @@ public class Client implements CrossServer {
 
     @Override
     public Server getServer(String server) {
-        return servers.get(server);
+        if (server.contains(server))
+            return servers.get(server);
+        else
+            return new NullServer(server);
     }
 
     public void addServer(Server server){
@@ -120,7 +126,7 @@ public class Client implements CrossServer {
         for (Player player : getPlayers())
             if (player.getName().equalsIgnoreCase(name))
                 return player;
-        return null;
+        return new NullPlayer(name);
     }
 
     @Override

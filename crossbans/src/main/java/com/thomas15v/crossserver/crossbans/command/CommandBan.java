@@ -1,7 +1,6 @@
 package com.thomas15v.crossserver.crossbans.command;
 
 import com.thomas15v.crossserver.api.Plugin;
-import com.thomas15v.crossserver.api.remote.CrossServer;
 import com.thomas15v.crossserver.api.remote.Player;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

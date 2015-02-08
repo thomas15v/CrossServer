@@ -3,10 +3,11 @@ main: com.thomas15v.crossserver.crosschat.BukkitPlugin
 version: ${project.version}b-${build.number}
 depend: [CrossServer]
 command:
-  cmsg:
+  msg:
+    alias: [a]
     description: Messages a player
     usage: /<command>
-  creply:
-   alias: [cr]
+  reply:
+   alias: [r]
    description: Replies a player
    usage: /<command>

@@ -13,7 +13,6 @@ import com.thomas15v.crossserver.network.remote.RemoteServer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
